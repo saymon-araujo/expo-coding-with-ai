@@ -41,10 +41,19 @@ In the project directory, you can run:
 
 *Note: The `get-ui` script still exist but are omitted here for brevity.*
 
-## Get a fresh project
+## Generate a folder with only relevant UI code
 
-When you're ready, run:
+This script helps isolate the UI-related code and configuration into a separate directory for easier sharing or review.
 
 ```bash
-npm run reset-project
+pnpm get-ui
 ```
+
+Running this command will:
+
+1.  Create a new directory named `ui-only/rosebud-mobile-ui-only/` (removing any existing one).
+2.  Copy UI-related directories (`app`, `assets`, `components`, `constants`, `hooks`) into it.
+3.  Copy essential configuration files (`package.json`, `app.json`, `tsconfig.json`) into it.
+4.  Generate a basic `README.md` and `.env` file within the new directory.
+
+This creates a self-contained snapshot of the application's UI layer.
