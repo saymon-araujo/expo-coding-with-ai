@@ -39,7 +39,7 @@ In the project directory, you can run:
 *   `pnpm lint`: Lints the project files using Expo's lint configuration.
 *   `pnpm test`: Runs the test suite using Jest.
 
-*Note: The `get-ui` script still exist but are omitted here for brevity.*
+*Note: The `get-ui` script still exist but is omitted here for brevity.*
 
 ## Generate a folder with only relevant UI code
 
