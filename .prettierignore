@@ -1,0 +1,21 @@
+# Build artifacts
+node_modules
+.expo
+.next
+dist
+build
+
+# Generated files
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Test directories
+coverage
+__snapshots__
+
+# OS specific files
+.DS_Store
+
+# Other
+*.log 

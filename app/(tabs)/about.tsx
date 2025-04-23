@@ -1,35 +1,37 @@
-import { StyleSheet } from "react-native"
+import { StyleSheet } from 'react-native';
 
-import { Collapsible } from "@/components/Collapsible"
-import { ExternalLink } from "@/components/ExternalLink"
-import ParallaxScrollView from "@/components/ParallaxScrollView"
-import { ThemedText } from "@/components/ThemedText"
-import { ThemedView } from "@/components/ThemedView"
-import { IconSymbol } from "@/components/ui/IconSymbol"
+import { Collapsible } from '@/components/Collapsible';
+import { ExternalLink } from '@/components/ExternalLink';
+import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { IconSymbol } from '@/components/ui/IconSymbol';
 
 export default function AboutScreen() {
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: "#E8D0F0", dark: "#3D2A47" }}
-      headerImage={<IconSymbol size={310} color="#9E7EB9" name="info.circle" style={styles.headerImage} />}
+      headerBackgroundColor={{ light: '#E8D0F0', dark: '#3D2A47' }}
+      headerImage={
+        <IconSymbol size={310} color="#9E7EB9" name="info.circle" style={styles.headerImage} />
+      }
     >
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">About Rosebud</ThemedText>
       </ThemedView>
 
       <ThemedText>
-        Rosebud is a mobile application built with React Native and Expo, designed to showcase modern mobile development
-        techniques.
+        Rosebud is a mobile application built with React Native and Expo, designed to showcase
+        modern mobile development techniques.
       </ThemedText>
 
       <Collapsible title="Project Overview">
         <ThemedText>
-          This project demonstrates a well-structured React Native application with multiple screens, custom components,
-          and animations.
+          This project demonstrates a well-structured React Native application with multiple
+          screens, custom components, and animations.
         </ThemedText>
         <ThemedText>
-          The app follows best practices for mobile development including responsive design, theme support, and
-          accessibility considerations.
+          The app follows best practices for mobile development including responsive design, theme
+          support, and accessibility considerations.
         </ThemedText>
       </Collapsible>
 
@@ -53,11 +55,12 @@ export default function AboutScreen() {
 
       <Collapsible title="Team">
         <ThemedText>
-          This project was created by a team of dedicated developers passionate about creating exceptional mobile
-          experiences.
+          This project was created by a team of dedicated developers passionate about creating
+          exceptional mobile experiences.
         </ThemedText>
         <ThemedText>
-          We're constantly working to improve and expand the application with new features and optimizations.
+          We're constantly working to improve and expand the application with new features and
+          optimizations.
         </ThemedText>
       </Collapsible>
 
@@ -66,18 +69,18 @@ export default function AboutScreen() {
         <ThemedText>Last Updated: April 2024</ThemedText>
       </Collapsible>
     </ParallaxScrollView>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   headerImage: {
     bottom: -90,
     right: 50,
-    position: "absolute",
+    position: 'absolute',
   },
   titleContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: 8,
     marginBottom: 16,
   },
-})
+});

@@ -51,18 +51,18 @@ const excludeDirs = [
   'dist',
   '.idea',
   '.vscode',
-  '__tests__'
+  '__tests__',
 ];
 
 // Clean and create target directory
 function setupTargetDirectory() {
   console.log(`Setting up target directory: ${targetDir}`);
-  
+
   if (fs.existsSync(targetDir)) {
     console.log('Target directory exists. Removing...');
     execSync(`rm -rf "${targetDir}"`);
   }
-  
+
   console.log('Creating fresh target directory...');
   fs.mkdirSync(targetDir, { recursive: true });
 }
@@ -78,12 +78,12 @@ function copyDirectoryWithExclusions(source, target) {
   for (const entry of entries) {
     const sourcePath = path.join(source, entry.name);
     const targetPath = path.join(target, entry.name);
-    
+
     if (entry.isDirectory() && excludeDirs.includes(entry.name)) {
       console.log(`Excluding directory: ${sourcePath}`);
       continue;
     }
-    
+
     if (entry.isDirectory()) {
       // Check if the source directory actually exists before recursing
       if (fs.existsSync(sourcePath)) {
@@ -92,25 +92,24 @@ function copyDirectoryWithExclusions(source, target) {
         console.log(`Warning: Source directory ${sourcePath} not found during recursion.`);
       }
     } else {
-       // Check if the source file actually exists before copying
+      // Check if the source file actually exists before copying
       if (fs.existsSync(sourcePath)) {
         fs.copyFileSync(sourcePath, targetPath);
       } else {
-         console.log(`Warning: Source file ${sourcePath} not found during copy.`);
+        console.log(`Warning: Source file ${sourcePath} not found during copy.`);
       }
     }
   }
 }
 
-
 // Copy individual files (same logic as web)
 function copyFiles() {
   console.log('Copying individual files...');
-  
+
   for (const file of filesToCopy) {
     const sourcePath = path.join(sourceDir, file);
     const targetPath = path.join(targetDir, file);
-    
+
     if (fs.existsSync(sourcePath)) {
       fs.copyFileSync(sourcePath, targetPath);
       console.log(`Copied: ${file}`);
@@ -123,7 +122,7 @@ function copyFiles() {
 // Create README for Mobile UI
 function createReadme() {
   console.log('Creating README...');
-  
+
   const readmeContent = `# Rosebud Mobile UI
 
 This repository contains only the UI-related files for the Rosebud Mobile application. It has been generated to isolate UI components and configurations.
@@ -154,36 +153,38 @@ Adjust the structure and dependency list based on your actual project setup.
 // Validate UI dependencies in mobile package.json
 function validateUIDependencies() {
   console.log('Validating Mobile UI dependencies...');
-  
+
   const packageJsonPath = path.join(sourceDir, 'package.json');
   if (!fs.existsSync(packageJsonPath)) {
     console.log('Warning: package.json not found.');
     return;
   }
-  
+
   try {
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-    
+
     // Essential Mobile UI dependencies to check for (adjust as needed)
     const essentialUIDeps = [
-      'react', 
-      'react-native', 
+      'react',
+      'react-native',
       'expo', // If using Expo
       '@react-navigation', // Common navigation library
       // Add other critical UI libs like state management (zustand, redux) or component libs
     ];
-    
-    const dependencies = { 
-      ...packageJson.dependencies || {}, 
-      ...packageJson.devDependencies || {}
+
+    const dependencies = {
+      ...(packageJson.dependencies || {}),
+      ...(packageJson.devDependencies || {}),
     };
-    
-    const missingDeps = essentialUIDeps.filter(dep => 
-      !Object.keys(dependencies).some(key => key === dep || key.startsWith(`${dep}/`))
+
+    const missingDeps = essentialUIDeps.filter(
+      dep => !Object.keys(dependencies).some(key => key === dep || key.startsWith(`${dep}/`))
     );
-    
+
     if (missingDeps.length > 0) {
-      console.log(`Warning: Some essential Mobile UI dependencies may be missing or not listed: ${missingDeps.join(', ')}`);
+      console.log(
+        `Warning: Some essential Mobile UI dependencies may be missing or not listed: ${missingDeps.join(', ')}`
+      );
     } else {
       console.log('Essential Mobile UI dependencies seem to be present.');
     }
@@ -195,7 +196,7 @@ function validateUIDependencies() {
 // Create minimal .env file for Mobile UI
 function createEnvFile() {
   console.log('Creating minimal .env file...');
-  
+
   // Add relevant default environment variables for the UI to function minimally
   const envContent = `# Mobile UI Environment Variables (Example)
 # EXPO_PUBLIC_API_URL=your_mock_or_dev_api_url
@@ -209,19 +210,19 @@ function createEnvFile() {
 // Main execution
 function main() {
   console.log('Starting Mobile UI-only version creation...');
-  
+
   // Validate UI dependencies first
   validateUIDependencies();
-  
+
   // Setup target directory
   setupTargetDirectory();
-  
+
   // Copy directories
   console.log('Copying directories...');
   for (const dir of directoriesToCopy) {
     const sourceSubDir = path.join(sourceDir, dir);
     const targetSubDir = path.join(targetDir, dir);
-    
+
     if (fs.existsSync(sourceSubDir)) {
       console.log(`Copying directory: ${dir}`);
       copyDirectoryWithExclusions(sourceSubDir, targetSubDir);
@@ -229,30 +230,30 @@ function main() {
       console.log(`Skipping directory (not found): ${dir}`);
     }
   }
-  
+
   // Copy files
   copyFiles();
-  
+
   // Create README
   createReadme();
-  
+
   // Create env file
   createEnvFile();
-  
+
   // Print summary
   try {
     const fileCount = parseInt(execSync(`find "${targetDir}" -type f | wc -l`).toString().trim());
     const dirSize = execSync(`du -sh "${targetDir}"`).toString().trim();
-    
+
     console.log('\\nSummary:');
     console.log(`Files: ${fileCount}`);
     console.log(`Size: ${dirSize}`);
     console.log(`Location: ${targetDir}`);
     console.log('\\nMobile UI-only version created successfully!');
   } catch (error) {
-     console.error('\\nError calculating summary:', error.message);
-     console.log(`\\nMobile UI-only version created, but summary failed. Location: ${targetDir}`);
+    console.error('\\nError calculating summary:', error.message);
+    console.log(`\\nMobile UI-only version created, but summary failed. Location: ${targetDir}`);
   }
 }
 
-main(); 
+main();
